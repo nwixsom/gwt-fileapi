@@ -77,12 +77,9 @@ public class DropHandler implements HasFileEvents {
             return false;
         };
         element.ondrop=function(event){
-            if (event.dataTransfer && event.dataTransfer.files) {
-                var files=event.dataTransfer.files;
-                if (files && files.length){
-                    _this.@com.gwtpro.html5.fileapi.client.DropHandler::files = event.dataTransfer.files;
-                    _this.@com.gwtpro.html5.fileapi.client.DropHandler::filesDropped()();
-                }
+            if (event && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length) {
+                _this.@com.gwtpro.html5.fileapi.client.DropHandler::files = event.dataTransfer.files;
+                _this.@com.gwtpro.html5.fileapi.client.DropHandler::filesDropped()();
             }
             return false;
         };
