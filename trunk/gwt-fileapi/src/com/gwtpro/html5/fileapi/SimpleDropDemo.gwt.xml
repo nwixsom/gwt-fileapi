@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='fileapi'>
+
+  <inherits name='com.google.gwt.user.User'/>
+  <entry-point class='com.gwtpro.html5.fileapi.client.samples.SimpleDropDemo'/>
+
+  <source path='client'/>
+
+</module>
