@@ -4,6 +4,16 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+
+<servlet>
+	<servlet-name>devnull</servlet-name>
+	<servlet-class>com.gwtpro.html5.fileapi.server.DevNullUploadServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>devnull</servlet-name>
+	<url-pattern>/fileapi/upload-test</url-pattern>
+</servlet-mapping>
   
 <!-- Default page to serve -->
   <welcome-file-list>
