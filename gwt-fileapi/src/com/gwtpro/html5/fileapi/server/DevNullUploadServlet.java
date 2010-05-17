@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("serial")
 public class DevNullUploadServlet extends HttpServlet {
 
     @Override
@@ -16,10 +17,11 @@ public class DevNullUploadServlet extends HttpServlet {
         ServletInputStream inputStream = req.getInputStream();
         try {
             byte[] buffer = new byte[8192];
-            int numRead;
+            int numRead, total = 0;
             while ((numRead = inputStream.read(buffer)) > 0) {
-                System.out.print(new String(buffer,0,numRead));
+                total += numRead;
             }
+            resp.getWriter().print(String.format("got %d bytes", total));
         } finally {
             inputStream.close();
         }
