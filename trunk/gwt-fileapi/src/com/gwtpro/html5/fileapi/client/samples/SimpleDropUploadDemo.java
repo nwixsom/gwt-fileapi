@@ -63,18 +63,25 @@ public class SimpleDropUploadDemo implements EntryPoint {
                                     2, "failed: " + event.getResponseCode()
                                             + " " + event.getResponse());
                         }
+                        uploadNextFile(SimpleDropUploadDemo.this.currentFile + 1);
                     }
                 });
-        this.fileUploader.addFileUploadProgressEventHandler(new FileUploadProgressEventHandler() {
-            
-            @Override
-            public void onProgress(FileUploadProgressEvent event) {
-                //GWT.log(event.getProgress()+"",null);
-                //table.setText(SimpleDropUploadDemo.this.currentFile+1, 2, (event.getProgress()*100/event.getFile().getFileSize())+"%");
-                table.setText(SimpleDropUploadDemo.this.currentFile+1, 2, event.getProgress()+"");
-            }
-        });
+        this.fileUploader
+                .addFileUploadProgressEventHandler(new FileUploadProgressEventHandler() {
+
+                    @Override
+                    public void onProgress(FileUploadProgressEvent event) {
+                        // GWT.log(event.getProgress()+"",null);
+                        // table.setText(SimpleDropUploadDemo.this.currentFile+1,
+                        // 2,
+                        // (event.getProgress()*100/event.getFile().getFileSize())+"%");
+                        table.setText(
+                                SimpleDropUploadDemo.this.currentFile + 1, 2,
+                                event.getProgress() + "");
+                    }
+                });
         dropHandler.addFileEventHandler(new FileEventHandler() {
+
             @Override
             public void onFiles(FileEvent event) {
                 SimpleDropUploadDemo.this.files = event.getFiles();
@@ -84,18 +91,23 @@ public class SimpleDropUploadDemo implements EntryPoint {
                 table.setText(0, 1, "File size");
                 table.setText(0, 2, "Progress");
                 for (int i = 0; i < SimpleDropUploadDemo.this.files.length(); ++i) {
-                    table.setText(i + 1, 0, SimpleDropUploadDemo.this.files.get(i).getFileName());
-                    table.setText(i + 1, 1, SimpleDropUploadDemo.this.files.get(i).getFileSize() + "");
+                    table.setText(i + 1, 0, SimpleDropUploadDemo.this.files
+                            .get(i).getFileName());
+                    table.setText(i + 1, 1, SimpleDropUploadDemo.this.files
+                            .get(i).getFileSize()
+                            + "");
+                    table.setText(i + 1, 2, "");
                 }
-                SimpleDropUploadDemo.this.currentFile = -1;
-                uploadNextFile();
+                uploadNextFile(0);
             }
         });
     }
 
-    private void uploadNextFile() {
-        SimpleDropUploadDemo.this.currentFile++;
-        this.fileUploader.sendFile(this.files
-                .get(SimpleDropUploadDemo.this.currentFile));
+    private void uploadNextFile(int index) {
+        SimpleDropUploadDemo.this.currentFile = index;
+        if (index < this.files.length()) {
+            this.fileUploader.sendFile(this.files
+                    .get(SimpleDropUploadDemo.this.currentFile));
+        }
     }
 }

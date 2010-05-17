@@ -2,6 +2,7 @@
 <module rename-to='fileapi'>
 
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.gwtpro.html5.fileapi.Html5FileApi'/>
   <entry-point class='com.gwtpro.html5.fileapi.client.samples.SimpleDropUploadDemo'/>
 
   <source path='client'/>
