@@ -15,7 +15,20 @@
  */
 package com.gwtpro.html5.fileapi.client;
 
-interface UploadProgressHandler {
+public final class FileApiSupport {
 
-    void onProgress(XMLHttpRequest2 xmlHttpRequest, int bytesUploaded);
+    public static native boolean isDragDropSupported()/*-{
+        return 'draggable' in document.createElement('span');
+    }-*/;
+    
+    public static native boolean isHttpXmlRequestLevel2()/*-{
+        return !!((typeof XMLHttpRequest != "undefined") &&
+            (new XMLHttpRequest()).upload);
+    }-*/;
+    
+    public static native boolean isMultipleFileInputSupported()/*-{
+       var input=document.createElement('input');
+       input.setAttribute('type','file');
+       return input.files!=null;
+    }-*/;
 }

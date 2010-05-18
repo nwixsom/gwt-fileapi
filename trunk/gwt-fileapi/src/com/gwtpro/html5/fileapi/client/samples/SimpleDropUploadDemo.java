@@ -22,13 +22,14 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.gwtpro.html5.fileapi.client.DropHandler;
-import com.gwtpro.html5.fileapi.client.File;
-import com.gwtpro.html5.fileapi.client.UploadRequest;
-import com.gwtpro.html5.fileapi.client.UploadRequestBuilder;
-import com.gwtpro.html5.fileapi.client.UploadRequestCallback;
-import com.gwtpro.html5.fileapi.client.events.FileEvent;
-import com.gwtpro.html5.fileapi.client.events.FileEvent.FileEventHandler;
+import com.gwtpro.html5.fileapi.client.FileApiSupport;
+import com.gwtpro.html5.fileapi.client.drop.DropHandler;
+import com.gwtpro.html5.fileapi.client.file.File;
+import com.gwtpro.html5.fileapi.client.file.FileEvent;
+import com.gwtpro.html5.fileapi.client.file.FileEvent.FileEventHandler;
+import com.gwtpro.html5.fileapi.client.upload.UploadRequest;
+import com.gwtpro.html5.fileapi.client.upload.UploadRequestBuilder;
+import com.gwtpro.html5.fileapi.client.upload.UploadRequestCallback;
 
 public class SimpleDropUploadDemo implements EntryPoint {
 
@@ -39,6 +40,7 @@ public class SimpleDropUploadDemo implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
+        showCapabilities();
         RootPanel rootPanel = RootPanel.get();
         DropHandler dropHandler = new DropHandler(rootPanel);
         this.table = new Grid();
@@ -49,7 +51,8 @@ public class SimpleDropUploadDemo implements EntryPoint {
 
             @Override
             public void onError(UploadRequest request, Throwable exception) {
-                SimpleDropUploadDemo.this.table.setText(SimpleDropUploadDemo.this.currentFile + 1, 2,
+                SimpleDropUploadDemo.this.table.setText(
+                        SimpleDropUploadDemo.this.currentFile + 1, 2,
                         "failed: " + exception.getMessage());
                 uploadNextFile(SimpleDropUploadDemo.this.currentFile + 1);
             }
@@ -57,7 +60,8 @@ public class SimpleDropUploadDemo implements EntryPoint {
             @Override
             public void onResponseReceived(UploadRequest request,
                     Response response) {
-                SimpleDropUploadDemo.this.table.setText(SimpleDropUploadDemo.this.currentFile + 1, 2,
+                SimpleDropUploadDemo.this.table.setText(
+                        SimpleDropUploadDemo.this.currentFile + 1, 2,
                         "success: " + response.getText());
                 uploadNextFile(SimpleDropUploadDemo.this.currentFile + 1);
             }
@@ -65,10 +69,10 @@ public class SimpleDropUploadDemo implements EntryPoint {
             @Override
             public void onUploadProgress(UploadRequest request,
                     int bytesUploaded) {
-                SimpleDropUploadDemo.this.table.setText(SimpleDropUploadDemo.this.currentFile + 1, 2,
+                SimpleDropUploadDemo.this.table.setText(
+                        SimpleDropUploadDemo.this.currentFile + 1, 2,
                         bytesUploaded + "");
             }
-
         });
         dropHandler.addFileEventHandler(new FileEventHandler() {
 
@@ -76,21 +80,41 @@ public class SimpleDropUploadDemo implements EntryPoint {
             public void onFiles(FileEvent event) {
                 SimpleDropUploadDemo.this.files = event.getFiles();
                 SimpleDropUploadDemo.this.table.clear();
-                SimpleDropUploadDemo.this.table.resize(SimpleDropUploadDemo.this.files.length() + 1, 3);
+                SimpleDropUploadDemo.this.table.resize(
+                        SimpleDropUploadDemo.this.files.length() + 1, 3);
                 SimpleDropUploadDemo.this.table.setText(0, 0, "File name");
                 SimpleDropUploadDemo.this.table.setText(0, 1, "File size");
                 SimpleDropUploadDemo.this.table.setText(0, 2, "Progress");
                 for (int i = 0; i < SimpleDropUploadDemo.this.files.length(); ++i) {
-                    SimpleDropUploadDemo.this.table.setText(i + 1, 0, SimpleDropUploadDemo.this.files
-                            .get(i).getFileName());
-                    SimpleDropUploadDemo.this.table.setText(i + 1, 1, SimpleDropUploadDemo.this.files
-                            .get(i).getFileSize()
-                            + "");
+                    SimpleDropUploadDemo.this.table.setText(i + 1, 0,
+                            SimpleDropUploadDemo.this.files.get(i)
+                                    .getFileName());
+                    SimpleDropUploadDemo.this.table.setText(i + 1, 1,
+                            SimpleDropUploadDemo.this.files.get(i)
+                                    .getFileSize()
+                                    + "");
                     SimpleDropUploadDemo.this.table.setText(i + 1, 2, "");
                 }
                 uploadNextFile(0);
             }
         });
+    }
+
+    private void showCapabilities() {
+        RootPanel
+                .get("status")
+                .getElement()
+                .setInnerHTML(
+                        "Drag and Drop Support: "
+                                + (FileApiSupport.isDragDropSupported() ? "Yes"
+                                        : "No")
+                                + "<br/>HTTPXmlRequest Level 2: "
+                                + (FileApiSupport.isHttpXmlRequestLevel2() ? "Yes"
+                                        : "No")
+                                + "<br/>File input supports multiple files: "
+                                + (FileApiSupport
+                                        .isMultipleFileInputSupported() ? "Yes"
+                                        : "No")+"<br/><br/>");
     }
 
     private void uploadNextFile(int index) {

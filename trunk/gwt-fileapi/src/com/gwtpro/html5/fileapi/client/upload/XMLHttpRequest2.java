@@ -13,9 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtpro.html5.fileapi.client;
+package com.gwtpro.html5.fileapi.client.upload;
 
 import com.google.gwt.xhr.client.XMLHttpRequest;
+import com.gwtpro.html5.fileapi.client.file.File;
 
 public class XMLHttpRequest2 extends XMLHttpRequest {
 
@@ -44,11 +45,10 @@ public class XMLHttpRequest2 extends XMLHttpRequest {
         this.send(file);
     }-*/;
 
-    public final native void setOnProgressHandler(UploadProgressHandler handler)/*-{
-        var _this=this;
+    public final native void setOnUploadProgressHandler(UploadProgressHandler handler)/*-{
         if (this.upload){
-            this.upload.addEventListener("progress",function(e){
-                handler.@com.gwtpro.html5.fileapi.client.UploadProgressHandler::onProgress(Lcom/gwtpro/html5/fileapi/client/XMLHttpRequest2;I)(_this, e.loaded);
+            this.upload.addEventListener("progress", function(e){
+                handler.@com.gwtpro.html5.fileapi.client.upload.UploadProgressHandler::onProgress(I)(e.loaded);
             }, false);
         }
     }-*/;
