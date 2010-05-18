@@ -18,10 +18,10 @@ package com.gwtpro.html5.fileapi.client.samples;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.gwtpro.html5.fileapi.client.DropHandler;
-import com.gwtpro.html5.fileapi.client.File;
-import com.gwtpro.html5.fileapi.client.events.FileEvent;
-import com.gwtpro.html5.fileapi.client.events.FileEvent.FileEventHandler;
+import com.gwtpro.html5.fileapi.client.drop.DropHandler;
+import com.gwtpro.html5.fileapi.client.file.File;
+import com.gwtpro.html5.fileapi.client.file.FileEvent;
+import com.gwtpro.html5.fileapi.client.file.FileEvent.FileEventHandler;
 
 public class SimpleDropDemo implements EntryPoint {
 

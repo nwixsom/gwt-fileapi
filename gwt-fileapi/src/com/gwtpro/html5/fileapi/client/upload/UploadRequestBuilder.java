@@ -28,7 +28,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtpro.html5.fileapi.client;
+package com.gwtpro.html5.fileapi.client.upload;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +40,7 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.RequestPermissionException;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 import com.google.gwt.xhr.client.XMLHttpRequest;
+import com.gwtpro.html5.fileapi.client.file.File;
 
 public class UploadRequestBuilder {
 
@@ -163,6 +164,17 @@ public class UploadRequestBuilder {
             throw new NullPointerException("callback has not been set");
         }
         XMLHttpRequest2 xmlHttpRequest = XMLHttpRequest2.create();
+        final UploadRequest request = new UploadRequest(xmlHttpRequest,
+                this.timeoutMillis, this.callback);
+        // progress handler must be set before open!!!
+        xmlHttpRequest.setOnUploadProgressHandler(new UploadProgressHandler() {
+
+            @Override
+            public void onProgress(int bytesUploaded) {
+                UploadRequestBuilder.this.callback.onUploadProgress(request,
+                        bytesUploaded);
+            }
+        });
         try {
             if (this.user != null && this.password != null) {
                 xmlHttpRequest.open("POST", this.url, this.user, this.password);
@@ -188,8 +200,6 @@ public class UploadRequestBuilder {
                 }
             }
         }
-        final UploadRequest request = new UploadRequest(xmlHttpRequest,
-                this.timeoutMillis, this.callback);
         xmlHttpRequest.setOnReadyStateChange(new ReadyStateChangeHandler() {
 
             public void onReadyStateChange(XMLHttpRequest xhr) {
@@ -198,15 +208,6 @@ public class UploadRequestBuilder {
                     request
                             .fireOnResponseReceived(UploadRequestBuilder.this.callback);
                 }
-            }
-        });
-        xmlHttpRequest.setOnProgressHandler(new UploadProgressHandler() {
-
-            @Override
-            public void onProgress(XMLHttpRequest2 xmlHttpRequest,
-                    int bytesUploaded) {
-                UploadRequestBuilder.this.callback.onUploadProgress(request,
-                        bytesUploaded);
             }
         });
         try {
@@ -272,7 +273,7 @@ public class UploadRequestBuilder {
     /**
      * Sets the number of milliseconds to wait for a request to complete. Should
      * the request timeout, the
-     * {@link com.google.gwt.http.client.UploadRequestCallback#onError(Request, Throwable)}
+     * {@link com.gwtpro.html5.fileapi.client.upload.UploadRequestCallback#onError(Request, Throwable)}
      * method will be called on the callback instance given to the
      * {@link com.google.gwt.http.client.RequestBuilder#sendRequest(String, RequestCallback)}
      * method. The callback method will receive an instance of the

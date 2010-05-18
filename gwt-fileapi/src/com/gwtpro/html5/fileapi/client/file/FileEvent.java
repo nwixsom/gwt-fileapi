@@ -13,12 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtpro.html5.fileapi.client.events;
+package com.gwtpro.html5.fileapi.client.file;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.gwtpro.html5.fileapi.client.File;
 
 /**
  * Event used for notification of the availability of files

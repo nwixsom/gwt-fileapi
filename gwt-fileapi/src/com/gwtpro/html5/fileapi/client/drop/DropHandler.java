@@ -13,16 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.gwtpro.html5.fileapi.client;
+package com.gwtpro.html5.fileapi.client.drop;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtpro.html5.fileapi.client.events.FileEvent;
-import com.gwtpro.html5.fileapi.client.events.HasFileEvents;
-import com.gwtpro.html5.fileapi.client.events.FileEvent.FileEventHandler;
+import com.gwtpro.html5.fileapi.client.file.File;
+import com.gwtpro.html5.fileapi.client.file.FileEvent;
+import com.gwtpro.html5.fileapi.client.file.HasFileEvents;
+import com.gwtpro.html5.fileapi.client.file.FileEvent.FileEventHandler;
 
 /**
  * Wires a widget or HTML element for dropping files from the operating system
@@ -78,8 +79,8 @@ public class DropHandler implements HasFileEvents {
         };
         element.ondrop=function(event){
             if (event && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length) {
-                _this.@com.gwtpro.html5.fileapi.client.DropHandler::files = event.dataTransfer.files;
-                _this.@com.gwtpro.html5.fileapi.client.DropHandler::filesDropped()();
+                _this.@com.gwtpro.html5.fileapi.client.drop.DropHandler::files = event.dataTransfer.files;
+                _this.@com.gwtpro.html5.fileapi.client.drop.DropHandler::filesDropped()();
             }
             return false;
         };
