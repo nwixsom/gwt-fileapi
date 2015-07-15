@@ -1,0 +1,1 @@
+Implementation of HTML5 FileAPI for Google Web Toolkit
